@@ -8,33 +8,34 @@
 // 3)liked recipe
 // 4)current recipe object
 
-
+global._babelPolyfill = false;
 import Search from "./model/Search";
-
-let state={ };
+import * as searchView from './views/searchView';
+import {elements} from './views/dom';
+const state={ };
 
 const searchController=async ()=>{
     //1.New query
-    let query='pizza';
-    if(query){
+    let query=searchView.getInput();
     //2.Getting the Search object
     state.search=new Search(query);
     //3.Loading the View
-
+    searchView.clearFields();
+    searchView.clearSearch();
     //4.Getting the result
     await state.search.getResults();
 
     //5.Rendering to UI
-    console.log(state.search.result);
-    }
+    searchView.renderView(state.search.result);
+  
+    
+    
 }
 
 //Adding listener to Serach box
-document.querySelector('.search').addEventListener('submit',(e)=>{
+elements.searchBox.addEventListener('submit',(e)=>{
     e.preventDefault();
     searchController();
 })
 
 
-
-search.getResults();
