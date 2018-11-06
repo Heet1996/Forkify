@@ -10,8 +10,8 @@ export const elementString={
 export const clearLoader=()=>{
     const loader=document.querySelector(`.${elementString.loader}`);
     if(loader)
-    elements.recipeSearch.removeChild();
-    
+    elements.recipeSearch.removeChild(loader);
+
 }
 export const renderLoader=(parent)=>{
     const loader=`<div class="${elementString.loader}">
