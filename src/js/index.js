@@ -11,7 +11,7 @@
 global._babelPolyfill = false;
 import Search from "./model/Search";
 import * as searchView from './views/searchView';
-import {elements} from './views/dom';
+import {elements,renderLoader,clearLoader} from './views/dom';
 const state={ };
 
 const searchController=async ()=>{
@@ -22,20 +22,19 @@ const searchController=async ()=>{
     //3.Loading the View
     searchView.clearFields();
     searchView.clearSearch();
+    renderLoader(elements.recipeSearch);
     //4.Getting the result
     await state.search.getResults();
-
+    clearLoader();
     //5.Rendering to UI
     searchView.renderView(state.search.result);
-  
-    
-    
-}
+  };
 
 //Adding listener to Serach box
 elements.searchBox.addEventListener('submit',(e)=>{
     e.preventDefault();
     searchController();
-})
+});
+
 
 
