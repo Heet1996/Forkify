@@ -2,7 +2,8 @@ export const elements={
     inputField:document.querySelector('.search__field'),
     searchBox:document.querySelector('.search'),
     recipeList:document.querySelector('.results__list'),
-    recipeSearch:document.querySelector('.results')
+    recipeSearch:document.querySelector('.results'),
+    resultPages:document.querySelector('.results__pages')
 };
 export const elementString={
     loader:'loader'

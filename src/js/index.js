@@ -8,7 +8,7 @@
 // 3)liked recipe
 // 4)current recipe object
 
-global._babelPolyfill = false;
+
 import Search from "./model/Search";
 import * as searchView from './views/searchView';
 import {elements,renderLoader,clearLoader} from './views/dom';
@@ -34,8 +34,17 @@ const searchController=async ()=>{
 //Adding listener to Serach box
 elements.searchBox.addEventListener('submit',(e)=>{
     e.preventDefault();
+    
     searchController();
 });
 
-
+elements.resultPages.addEventListener('click',(e)=>{
+    const btn=e.target.closest('.btn-inline');
+    if(btn)
+    {
+        const goToPage=parseInt(btn.dataset.goto,10);
+        searchView.clearSearch();
+        searchView.renderView(state.search.result,goToPage);
+    }
+})
 

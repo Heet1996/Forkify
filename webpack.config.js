@@ -1,7 +1,7 @@
 var path=require('path');
 var htmlPlugin=require('html-webpack-plugin');
 module.exports={
-    entry:['babel-polyfill','./src/js/index.js'],
+    entry:['idempotent-babel-polyfill','./src/js/index.js'],
     output:{
         path:path.resolve(__dirname,'./dist'),
         filename:'js/bundle.js'
@@ -12,6 +12,7 @@ module.exports={
     plugins:[
         new htmlPlugin({
             filename:'index.html',
+            inject: false,
             template:'./src/index.html'
         })
     ],
