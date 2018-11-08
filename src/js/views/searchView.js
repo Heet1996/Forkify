@@ -31,8 +31,13 @@ const limitTitle=(title,limit=17)=>{
 return title;
 }
 
-export const renderView=(renderArray)=>{
+export const renderView=(renderArray,page=1,numResult=10)=>{
+    const start=(page-1)*numResult;
+    const end=page*numResult;
+    renderArray=renderArray.slice(0,10);
+    console.log(renderArray);
     renderArray.forEach(element => render(element));
+
 };
 export const clearFields=()=>{
     

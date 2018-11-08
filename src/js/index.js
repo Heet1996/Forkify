@@ -27,6 +27,7 @@ const searchController=async ()=>{
     await state.search.getResults();
     clearLoader();
     //5.Rendering to UI
+    console.log(state.search.result);
     searchView.renderView(state.search.result);
   };
 
