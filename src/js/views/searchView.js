@@ -2,7 +2,7 @@ import {elements} from './dom';
 export const getInput=()=>elements.inputField.value;
 const render=(recipe)=>{
     let mark=`<li>
-    <a class="results__link" href="#23456">
+    <a class="results__link" href="#${recipe.recipe_id}">
         <figure class="results__fig">
             <img src="${recipe.image_url}" alt="Test">
         </figure>

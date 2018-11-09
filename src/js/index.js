@@ -10,15 +10,19 @@
 
 
 import Search from "./model/Search";
+import Recipe from "./model/Recipe";
 import * as searchView from './views/searchView';
 import {elements,renderLoader,clearLoader} from './views/dom';
 const state={ };
 
+
+//Seacrh Controller 
 const searchController=async ()=>{
     //1.New query
     let query=searchView.getInput();
     //2.Getting the Search object
     state.search=new Search(query);
+    try{
     //3.Loading the View
     searchView.clearFields();
     searchView.clearSearch();
@@ -27,8 +31,14 @@ const searchController=async ()=>{
     await state.search.getResults();
     clearLoader();
     //5.Rendering to UI
-    console.log(state.search.result);
     searchView.renderView(state.search.result);
+    }
+    catch(err)
+    {
+        alert("Couldn't fetch the list");
+        searchView.clearFields();
+        searchView.clearSearch();
+    }
   };
 
 //Adding listener to Serach box
@@ -46,5 +56,34 @@ elements.resultPages.addEventListener('click',(e)=>{
         searchView.clearSearch();
         searchView.renderView(state.search.result,goToPage);
     }
-})
+});
 
+
+//Recipe Controller
+
+const controlRecipe=async ()=>{
+    //Prepare Ui for changes
+    //1.Take the id
+    const id=window.location.hash.replace('#','');
+    console.log(id);
+    if(id){
+    //2.Getting the click object
+    state.recipe=new Recipe(id);
+    console.log(state.recipe);
+    //3.Get the recipe data
+    try{
+    await state.recipe.getRecipe();
+    //4.Calculating time and servings
+    state.recipe.calcTime();
+    state.recipe.calcServings();
+    //5.Render the recipe
+    console.log(state.recipe);
+    }
+    catch(err){
+        alert("Error while loading Messages :(");
+    }
+    }
+    
+}
+
+['hashchange','load'].forEach((event)=>window.addEventListener(event,controlRecipe));

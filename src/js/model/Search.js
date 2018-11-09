@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {key,url} from '../config';
 export default class Search
 {
     constructor(query){
@@ -18,4 +19,5 @@ export default class Search
             console.log(err);
         }
     }
+    
 }
