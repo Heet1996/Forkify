@@ -22,11 +22,11 @@ const searchController=async ()=>{
     let query=searchView.getInput();
     //2.Getting the Search object
     state.search=new Search(query);
-    try{
     //3.Loading the View
     searchView.clearFields();
     searchView.clearSearch();
     renderLoader(elements.recipeSearch);
+    try{
     //4.Getting the result
     await state.search.getResults();
     clearLoader();
@@ -34,10 +34,9 @@ const searchController=async ()=>{
     searchView.renderView(state.search.result);
     }
     catch(err)
-    {
+    {   clearLoader();
         alert("Couldn't fetch the list");
-        searchView.clearFields();
-        searchView.clearSearch();
+        
     }
   };
 
