@@ -31,4 +31,60 @@ export default class Recipe
     {
         this.servings=4;
     }
+    parseIngredients()
+    {
+        const unitLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
+        const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+        console.log(this.ingredients);
+        const newIngredients=this.ingredients.map((element)=>{
+            //1.Uniform units
+            let ingredient=element.toLowerCase();
+            unitLong.forEach((unit,i)=>{
+                ingredient=ingredient.replace(unit,unitShort[i]);
+            });
+            //2.Remove the paranthesis
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
+            
+            //3.parse ingredients into count,unit and ingredient
+            const arrIngred=ingredient.split(' ');
+            const arrIndex=arrIngred.findIndex(el=>unitShort.includes(el)); 
+            let objIng;
+            if(arrIndex>-1)
+            {   const arrCount =arrIngred.split(0,arrIndex);
+                let count;
+                //unit is present and 1 value is there before
+                if(arrCount.length==1)
+                {
+                    count=eval(arrIngred[0].replace('-','+'));
+                }
+                //unit is present and 2 values are there before
+                else{
+                    count=eval(arrIngred.split(0,arrIndex).join('+'));
+                }
+            }
+            else if(parseInt(arrIndex[0],10))
+            {
+                //unit is not present and first number is present.
+                objIng={
+                    count:parseInt(arrIndex[0],10),
+                    unit:' ',
+                    ingredient:arrIngred.slice(1).join(' ')
+                }
+            }   
+            else if(arrIndex==-1)
+            {
+                //There is no unit and no number in 1st position.
+                objIng={
+                    count:1,
+                    unit:' ',
+                    ingredient:arrIngred.join(' ')
+                }
+            }
+             return objIng;
+        });
+
+        this.ingredients=newIngredients;
+        
+
+    }
 } 

@@ -13,6 +13,7 @@ import Search from "./model/Search";
 import Recipe from "./model/Recipe";
 import * as searchView from './views/searchView';
 import {elements,renderLoader,clearLoader} from './views/dom';
+
 const state={ };
 
 
@@ -64,19 +65,21 @@ const controlRecipe=async ()=>{
     //Prepare Ui for changes
     //1.Take the id
     const id=window.location.hash.replace('#','');
-    console.log(id);
+    
     if(id){
     //2.Getting the click object
     state.recipe=new Recipe(id);
-    console.log(state.recipe);
+    
     //3.Get the recipe data
     try{
     await state.recipe.getRecipe();
     //4.Calculating time and servings
     state.recipe.calcTime();
     state.recipe.calcServings();
+    
+    console.log(state.recipe.parseIngredients());
     //5.Render the recipe
-    console.log(state.recipe);
+        
     }
     catch(err){
         alert("Error while loading Messages :(");
