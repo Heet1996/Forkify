@@ -35,7 +35,6 @@ export default class Recipe
     {
         const unitLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
-        console.log(this.ingredients);
         const newIngredients=this.ingredients.map((element)=>{
             //1.Uniform units
             let ingredient=element.toLowerCase();
@@ -49,8 +48,9 @@ export default class Recipe
             const arrIngred=ingredient.split(' ');
             const arrIndex=arrIngred.findIndex(el=>unitShort.includes(el)); 
             let objIng;
+            
             if(arrIndex>-1)
-            {   const arrCount =arrIngred.split(0,arrIndex);
+            {   const arrCount =arrIngred.slice(0,arrIndex);
                 let count;
                 //unit is present and 1 value is there before
                 if(arrCount.length==1)
@@ -59,15 +59,20 @@ export default class Recipe
                 }
                 //unit is present and 2 values are there before
                 else{
-                    count=eval(arrIngred.split(0,arrIndex).join('+'));
+                    count=eval(arrIngred.slice(0,arrIndex).join('+'));
+                }
+                objIng={
+                    count,
+                    unit:arrIngred[arrIndex],
+                    ingredient:arrIngred.slice(arrIndex+1).join(' ')
                 }
             }
-            else if(parseInt(arrIndex[0],10))
+            else if(parseInt(arrIngred[0],10))
             {
                 //unit is not present and first number is present.
                 objIng={
-                    count:parseInt(arrIndex[0],10),
-                    unit:' ',
+                    count:parseInt(arrIngred[0],10),
+                    unit:'',
                     ingredient:arrIngred.slice(1).join(' ')
                 }
             }   
@@ -76,7 +81,7 @@ export default class Recipe
                 //There is no unit and no number in 1st position.
                 objIng={
                     count:1,
-                    unit:' ',
+                    unit:'',
                     ingredient:arrIngred.join(' ')
                 }
             }
@@ -84,7 +89,7 @@ export default class Recipe
         });
 
         this.ingredients=newIngredients;
-        
+        console.log(this.ingredients);
 
     }
 } 
