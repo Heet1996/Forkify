@@ -12,6 +12,7 @@
 import Search from "./model/Search";
 import Recipe from "./model/Recipe";
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import {elements,renderLoader,clearLoader} from './views/dom';
 
 const state={ };
@@ -62,7 +63,10 @@ elements.resultPages.addEventListener('click',(e)=>{
 //Recipe Controller
 
 const controlRecipe=async ()=>{
-    //Prepare Ui for changes
+    //0.Prepare Ui for changes
+    recipeView.clearFields();
+    renderLoader(elements.recipeView);
+    
     //1.Take the id
     const id=window.location.hash.replace('#','');
     
@@ -74,15 +78,20 @@ const controlRecipe=async ()=>{
     try{
     await state.recipe.getRecipe();
     //4.Calculating time and servings
+    
     state.recipe.calcTime();
     state.recipe.calcServings();
     
     state.recipe.parseIngredients();
     //5.Render the recipe
+    clearLoader(); 
+    recipeView.renderRecipe(state.recipe);
+
         
     }
     catch(err){
         alert("Error while loading Messages :(");
+        console.log(err);
     }
     }
     

@@ -3,7 +3,8 @@ export const elements={
     searchBox:document.querySelector('.search'),
     recipeList:document.querySelector('.results__list'),
     recipeSearch:document.querySelector('.results'),
-    resultPages:document.querySelector('.results__pages')
+    resultPages:document.querySelector('.results__pages'),
+    recipeView:document.querySelector('.recipe')
 };
 export const elementString={
     loader:'loader'
@@ -11,7 +12,7 @@ export const elementString={
 export const clearLoader=()=>{
     const loader=document.querySelector(`.${elementString.loader}`);
     if(loader)
-    elements.recipeSearch.removeChild(loader);
+     loader.parentElement.removeChild(loader);
 
 }
 export const renderLoader=(parent)=>{
