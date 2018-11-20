@@ -33,10 +33,12 @@ const searchController=async ()=>{
     await state.search.getResults();
     clearLoader();
     //5.Rendering to UI
+    console.log(state.search.result);
     searchView.renderView(state.search.result);
     }
     catch(err)
     {   clearLoader();
+        console.log(err);
         alert("Couldn't fetch the list");
         
     }
@@ -70,8 +72,12 @@ const controlRecipe=async ()=>{
     //1.Take the id
     const id=window.location.hash.replace('#','');
     
+    if(state.search) searchView.highlightSelected(id);
     if(id){
+    //Highlight the recipe    
+    
     //2.Getting the click object
+    
     state.recipe=new Recipe(id);
     
     //3.Get the recipe data
@@ -85,6 +91,7 @@ const controlRecipe=async ()=>{
     state.recipe.parseIngredients();
     //5.Render the recipe
     clearLoader(); 
+    
     recipeView.renderRecipe(state.recipe);
 
         
@@ -96,5 +103,24 @@ const controlRecipe=async ()=>{
     }
     
 }
-
 ['hashchange','load'].forEach((event)=>window.addEventListener(event,controlRecipe));
+//Handling recipe button clicks
+ elements.recipeView.addEventListener('click',e=>{
+     if(e.target.matches('.btn-decrease , .btn-decrease *')) //btn decrease or any child close to it (We can't use target.closest as there are more than one selectors)
+     {
+        //Decrease button is click
+        if(state.recipe.servings>1)
+        {state.recipe.updateServings('dec');
+            //Updating on the view
+        recipeView.updateServingsIngredients(state.recipe);
+        }
+     }else if(e.target.matches('.btn-increase , .btn-increase *'))
+     {
+        //Increase button is clik
+        state.recipe.updateServings('inc');
+            //Updating on the view
+        recipeView.updateServingsIngredients(state.recipe);
+     }
+
+
+ })

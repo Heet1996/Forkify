@@ -14,6 +14,11 @@ const render=(recipe)=>{
 </li>`;
 elements.recipeList.insertAdjacentHTML('beforeend',mark);
 }
+export const highlightSelected=(id) =>{
+    const resArr=Array.from(document.querySelectorAll('.results__link')); //Converting nodelist to array
+    resArr.forEach((el)=>el.classList.remove('results__link--active'));
+    document.querySelector(`a[href*="#${id}"]`).classList.add('results__link--active');
+}
 const limitTitle=(title,limit=17)=>{
     const newTitle=[];
     if(title.length>limit)
