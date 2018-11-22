@@ -11,8 +11,12 @@
 
 import Search from "./model/Search";
 import Recipe from "./model/Recipe";
+import List from "./model/List";
+
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
+
 import {elements,renderLoader,clearLoader} from './views/dom';
 
 const state={ };
@@ -104,23 +108,38 @@ const controlRecipe=async ()=>{
     
 }
 ['hashchange','load'].forEach((event)=>window.addEventListener(event,controlRecipe));
+
+ //Contrller for List
+ const controlList=()=>{
+     //1.Creating the new list
+     if(!state.list) state.list=new List();
+     //2.Creating the event while adding into shopping list
+     state.recipe.ingredients.forEach((el)=>{
+        const item=state.list.addItem(el.count,el.unit,el.ingredient);
+     listView.createList(item);
+     });
+    };
+ 
 //Handling recipe button clicks
- elements.recipeView.addEventListener('click',e=>{
-     if(e.target.matches('.btn-decrease , .btn-decrease *')) //btn decrease or any child close to it (We can't use target.closest as there are more than one selectors)
-     {
-        //Decrease button is click
-        if(state.recipe.servings>1)
-        {state.recipe.updateServings('dec');
-            //Updating on the view
-        recipeView.updateServingsIngredients(state.recipe);
-        }
-     }else if(e.target.matches('.btn-increase , .btn-increase *'))
-     {
-        //Increase button is clik
-        state.recipe.updateServings('inc');
-            //Updating on the view
-        recipeView.updateServingsIngredients(state.recipe);
-     }
+elements.recipeView.addEventListener('click',e=>{
+    if(e.target.matches('.btn-decrease , .btn-decrease *')) //btn decrease or any child close to it (We can't use target.closest as there are more than one selectors)
+    {
+       //Decrease button is click
+       if(state.recipe.servings>1)
+       {state.recipe.updateServings('dec');
+           //Updating on the view
+       recipeView.updateServingsIngredients(state.recipe);
+       }
+    }else if(e.target.matches('.btn-increase , .btn-increase *'))
+    {
+       //Increase button is clik
+       state.recipe.updateServings('inc');
+           //Updating on the view
+       recipeView.updateServingsIngredients(state.recipe);
+    }else if(e.target.matches('.recipe__btn--add,.recipe__btn--add *'))
+    {
+       controlList();
+    }
 
 
- })
+});
