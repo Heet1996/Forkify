@@ -136,7 +136,7 @@ const controlRecipe=async ()=>{
             const count=e.target.value;
             state.list.updateList(id,count);
         }
-    })
+    });
 
 //Handling recipe button clicks
 elements.recipeView.addEventListener('click',e=>{
