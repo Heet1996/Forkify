@@ -12,12 +12,14 @@
 import Search from "./model/Search";
 import Recipe from "./model/Recipe";
 import List from "./model/List";
+import { Like } from "./model/Like";
 
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
 
 import {elements,renderLoader,clearLoader} from './views/dom';
+
 
 const state={ };
 window.state=state;
@@ -118,6 +120,29 @@ const controlRecipe=async ()=>{
      listView.createList(item);
      });
     };
+  //Controller for Like
+  const controlLike=()=>{
+      //Taking the id
+      const currentId=state.recipe.id;
+      //Creating the object
+      if(!state.like) state.like=new Like();
+      //If the recipe is not like
+      if(!state.like.isLike(currentId))
+      { //Add to like state
+        const likeRecipe=state.like.addLikeItem(currentId,state.recipe.title,state.recipe.author,state.recipe.img);
+        //Toggle the like button
+        
+        //Update the UI
+      }
+      //recipe is like
+      else{
+        //Remove the like button 
+        state.like.deleteLikeItem(currentId);
+        //Toogle like button
+        
+        //Update on UI
+      }
+  }
  //Handling delete and update item list
     elements.addListItem.addEventListener('click',e=>{
         //Take the ingredient id which was been click 
@@ -157,6 +182,10 @@ elements.recipeView.addEventListener('click',e=>{
     }else if(e.target.matches('.recipe__btn--add,.recipe__btn--add *'))
     {
        controlList();
+    }
+    else if(e.target.matches('.recipe__love,.recipe__love *'))
+    {
+        controlLike();
     }
 
 
