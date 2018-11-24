@@ -5,7 +5,7 @@ export let createList=(item)=>{
 const markup= `
 <li class="shopping__item" data-itemid="${item.id}">
 <div class="shopping__count">
-    <input type="number" value="${item.count}" step="${item.count}" class="shopping__count-value>
+    <input type="number" value="${item.count}" step="${item.count}" class="shopping__count-value">
     <p>${item.unit}</p>
 </div>
 <p class="shopping__description">${item.ingredient}</p>
@@ -16,7 +16,13 @@ const markup= `
 </button>
 </li>
 `;
-console.log(markup);
+
 elements.addListItem.insertAdjacentHTML('beforeend',markup);
 
 };
+export let deleteList=(id)=>{
+    const el=document.querySelector(`[data-itemid="${id}"]`);
+    console.log(el);
+    console.log(`[data-itemid="${id}]"`);
+    if(el) el.parentElement.removeChild(el);
+}

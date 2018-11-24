@@ -20,7 +20,7 @@ import * as listView from './views/listView';
 import {elements,renderLoader,clearLoader} from './views/dom';
 
 const state={ };
-
+window.state=state;
 
 //Seacrh Controller 
 const searchController=async ()=>{
@@ -95,7 +95,6 @@ const controlRecipe=async ()=>{
     state.recipe.parseIngredients();
     //5.Render the recipe
     clearLoader(); 
-    
     recipeView.renderRecipe(state.recipe);
 
         
@@ -115,11 +114,30 @@ const controlRecipe=async ()=>{
      if(!state.list) state.list=new List();
      //2.Creating the event while adding into shopping list
      state.recipe.ingredients.forEach((el)=>{
-        const item=state.list.addItem(el.count,el.unit,el.ingredient);
+     const item=state.list.addItem(el.count,el.unit,el.ingredient);
      listView.createList(item);
      });
     };
- 
+ //Handling delete and update item list
+    elements.addListItem.addEventListener('click',e=>{
+        //Take the ingredient id which was been click 
+        const id=e.target.closest('.shopping__item').dataset.itemid;
+        //Delete the item
+        if(e.target.matches('.shopping__delete , .shopping__delete *'))
+        {
+            //1.Delete from the state
+            state.list.deleteItem(id);
+            //2.Delete it from the view
+            listView.deleteList(id);
+        }
+        else if(e.target.matches('.shopping__count-value'))
+        {
+            //Get the count
+            const count=e.target.value;
+            state.list.updateList(id,count);
+        }
+    })
+
 //Handling recipe button clicks
 elements.recipeView.addEventListener('click',e=>{
     if(e.target.matches('.btn-decrease , .btn-decrease *')) //btn decrease or any child close to it (We can't use target.closest as there are more than one selectors)

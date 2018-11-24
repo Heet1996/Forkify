@@ -21,7 +21,7 @@ export default class List
         //Search the item
         const itemIndex=this.items.findIndex((el)=>el.id==id);
         //Delete the item
-        this.item.splice(itemIndex,id);
+        this.items.splice(itemIndex,1);
     }
     updateList(id,newCount)
     {   //will return element which needs to be find
