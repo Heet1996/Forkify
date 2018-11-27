@@ -17,6 +17,7 @@ import { Like } from "./model/Like";
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likeView from './views/likeView';
 
 import {elements,renderLoader,clearLoader} from './views/dom';
 
@@ -97,7 +98,7 @@ const controlRecipe=async ()=>{
     state.recipe.parseIngredients();
     //5.Render the recipe
     clearLoader(); 
-    recipeView.renderRecipe(state.recipe);
+    recipeView.renderRecipe(state.recipe,state.like.isLike(id));
 
         
     }
@@ -121,27 +122,38 @@ const controlRecipe=async ()=>{
      });
     };
   //Controller for Like
+  //Testing
+  if(!state.like) state.like=new Like();
+  //Displaying wishlist
+  likeView.toogleLikeList(state.like.getLikes());
   const controlLike=()=>{
       //Taking the id
       const currentId=state.recipe.id;
       //Creating the object
-      if(!state.like) state.like=new Like();
+      
       //If the recipe is not like
       if(!state.like.isLike(currentId))
       { //Add to like state
         const likeRecipe=state.like.addLikeItem(currentId,state.recipe.title,state.recipe.author,state.recipe.img);
         //Toggle the like button
-        
+        likeView.toogleLikeBtn(true);
         //Update the UI
+        likeView.renderLike(likeRecipe);
+        
+        
       }
       //recipe is like
       else{
         //Remove the like button 
         state.like.deleteLikeItem(currentId);
         //Toogle like button
-        
+        likeView.toogleLikeBtn(false);
         //Update on UI
+        likeView.deleteItem(currentId);        
       }
+        //Displaying wishlist
+    likeView.toogleLikeList(state.like.getLikes());
+
   }
  //Handling delete and update item list
     elements.addListItem.addEventListener('click',e=>{

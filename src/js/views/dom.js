@@ -5,7 +5,9 @@ export const elements={
     recipeSearch:document.querySelector('.results'),
     resultPages:document.querySelector('.results__pages'),
     recipeView:document.querySelector('.recipe'),
-    addListItem:document.querySelector('.shopping__list')
+    addListItem:document.querySelector('.shopping__list'),
+    addWishList:document.querySelector('.likes__field'),
+    addWishListItem:document.querySelector('.likes__list')
 };
 export const elementString={
     loader:'loader'
