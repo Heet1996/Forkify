@@ -174,7 +174,18 @@ const controlRecipe=async ()=>{
             state.list.updateList(id,count);
         }
     });
-
+//Restore like recipes on pageload
+window.addEventListener('load',()=>{
+    //create like object
+    if(!state.like) state.like=new Like();
+    //taking the data
+    state.like.readStorage();
+    //display the likes
+    state.like.likes.forEach((like)=>likeView.renderLike(like));
+    //Displaying wishlist
+    likeView.toogleLikeList(state.like.getLikes());
+     
+});
 //Handling recipe button clicks
 elements.recipeView.addEventListener('click',e=>{
     if(e.target.matches('.btn-decrease , .btn-decrease *')) //btn decrease or any child close to it (We can't use target.closest as there are more than one selectors)
